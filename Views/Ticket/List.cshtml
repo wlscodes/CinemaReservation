@@ -1,0 +1,25 @@
+﻿@model Dictionary<Guid,IList<Ticket>>
+@{
+    ViewData["Title"] = "Lista biletów";
+}
+
+<h1>Bilety</h1>
+
+@foreach(var ticket in Model.Values.FirstOrDefault())
+{
+    <div class="row">
+        <div class="col-8">
+            <h2>@ticket.Event.Name</h2>
+            <p>Data rozpoczęcia: @ticket.Event.BeginTime</p>
+            <p>Sala: @ticket.Seat.Hall.Name</p>
+            <p>Rząd @ticket.Seat.Row Miejsce @ticket.Seat.Column</p>
+            <small>Data zakupu: @ticket.BougthDate</small>
+        </div>
+        <div class="col-4">
+            <img src="@($@"https://api.qrserver.com/v1/create-qr-code/?size=100x100&data={ticket.ID}")" alt="Kod QR" title="Bilet" />
+        </div>
+    </div>
+    <hr class="ticket"/>
+}
+
+<a asp-controller="Event" asp-action="Details" asp-route-id="@Model.Keys.FirstOrDefault()">Wróć do sali</a>

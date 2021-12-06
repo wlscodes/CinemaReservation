@@ -1,0 +1,80 @@
+﻿@model PaginatedList<Event>
+
+@{
+    ViewData["Title"] = "Lista wydarzeń";
+}
+
+<h1>Lista wydarzeń</h1>
+
+<p>
+    <a asp-action="Create">Stwórz nowe wydarzenie</a>
+</p>
+
+<form asp-action="Index" method="post">
+    @Html.AntiForgeryToken()
+    <div class="form-inline">
+        <input type="text" class="form-control mb-6" name="eventName" placeholder="Nazwa wydarzenia" />
+        <input type="submit" class="btn btn-dark mb-6" value="Wyszukaj" />
+    </div>
+</form>
+
+<table class="table">
+    <caption>Lista przyszłych wydarzeń</caption>
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().BeginTime)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().FinishTime)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Hall)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BeginTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FinishTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hall.Name)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.ID">Edytuj</a> |
+                    <a asp-action="Details" asp-route-id="@item.ID">Wyświetl</a> |
+                    <a asp-action="Delete" asp-route-id="@item.ID">Usuń</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@{
+    var prevDisabled = !Model.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.HasNextPage ? "disabled" : "";
+}
+
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex - 1)"
+   class="btn btn-outline-info @prevDisabled">
+    Poprzednia
+</a>
+<a asp-action="Index"
+   asp-route-pageNumber="@(Model.PageIndex + 1)"
+   class="btn btn-outline-info @nextDisabled">
+    Następna
+</a>

@@ -1,0 +1,21 @@
+﻿@model Dictionary<string, Event>
+
+@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Cinema Reservation</h1>
+    <p>System zarządzania salami kinowymi</p>
+</div>
+
+<div class="row">
+    @foreach(var e in Model)
+    {
+        <div class="col-6">
+            <h2>@e.Key</h2>
+            <h3><a asp-controller="Event" asp-action="Details" asp-route-id="@e.Value.ID">@e.Value.Name</a></h3>
+            <p>Data rozpoczęcia @e.Value.BeginTime</p>
+        </div>
+    }
+</div>

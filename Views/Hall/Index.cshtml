@@ -1,0 +1,24 @@
+﻿@model IList<CinemaReservation.Controllers.HallModel>
+@{
+    ViewData["Title"] = "Sale";
+}
+
+<h1>Dostępne sale</h1>
+
+<div class="row">
+    @foreach (var hall in Model)
+    {
+    <div class="col-6">
+        <h2>@hall.Name</h2>
+        <small>Liczba miejsc: @hall.NumberOfSeats</small>
+        <br />
+        @if (hall.NearestEvent is not null)
+        {
+            <h3>Najbliższe wydarzenie:<a asp-controller="Event" asp-action="Details" asp-route-id="@hall.NearestEvent.ID">@hall.NearestEvent.Name</a></h3>
+        }
+        <p>Lista dostępnych wydarzeń: @hall.NumberOfEvents</p>
+    </div>
+    }
+</div>
+
+
